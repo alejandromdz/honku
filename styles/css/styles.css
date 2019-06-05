@@ -1,0 +1,42 @@
+@font-face{
+    font-family: 'Connection';
+    src: url("../../assets/fonts/Connection.ttf") format("truetype");
+}
+body{
+    font-size:10px;
+    color:black;
+    background: #00467F;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #A5CC82, #00467F);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #A5CC82, #00467F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body div.container{
+   
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column
+}
+
+body canvas{
+    border: 10px solid black;
+}
+body div.container div#game{
+    margin:0;
+    padding:0
+}
+
+body h1{
+    font-family: 'Connection';
+    font-size: 45px;
+    color: black;
+    background: #efeaea;
+    width: 146px;
+    text-align: center;
+    border-radius: 6px;
+}

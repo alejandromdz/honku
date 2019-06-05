@@ -1,0 +1,30 @@
+{
+    "preload": {
+        "files": [{
+            "type": "bitmapFont",
+            "key": "font",
+            "textureURL": "assets/fonts/font.png",
+            "fontDataURL": "assets/fonts/font.fnt"
+          },
+
+            {
+                "type": "spritesheet",
+                "key": "honku",
+                "url": "assets/honku.png",
+                "frameConfig": {
+                    "frameWidth": 40,
+                    "frameHeight": 40
+                }
+            },
+            {
+                "type": "spritesheet",
+                "key": "enemy",
+                "url": "assets/ufo.png",
+                "frameConfig": {
+                    "frameWidth": 40,
+                    "frameHeight": 80
+                }
+            }
+        ]
+    }
+}

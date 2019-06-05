@@ -1,0 +1,30 @@
+{
+  "name": "Honku",
+  "version": "1.0.0",
+  "description": "How would it be to play T-Rex Run! in an aerial perspective with UFOs and ducks?",
+  "keywords": [
+    "Phaser"
+  ],
+  "devDependencies": {
+    "expose-loader": "0.7.5",
+    "ts-loader": "6.0.0",
+    "typescript": "3.4.5",
+    "webpack": "4.31.0",
+    "webpack-cli": "3.3.2",
+    "webpack-dev-server": "3.3.1"
+  },
+  "dependencies": {
+    "phaser": "3.17.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "scripts": {
+    "dev": "webpack --mode development && webpack-dev-server --mode development",
+    "build": "webpack --mode production && webpack-dev-server --mode production"
+  },
+  "author": {
+    "name": "alejandromdz",
+    "email": "alejandromdz@gmail.com"
+  },
+  "license": "ISC"
+
+}
