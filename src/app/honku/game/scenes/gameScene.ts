@@ -144,9 +144,17 @@ this.block = this.add.image(text.x - 10, text.y - 2, 'block').setOrigin(0).setDe
 
 this.text = text;
 this.input.keyboard.on('keyup_LEFT', this.moveLeft, this);
+this.input.keyboard.on('keyup_FOUR', this.moveLeft, this);
+
 this.input.keyboard.on('keyup_RIGHT', this.moveRight, this);
+this.input.keyboard.on('keyup_SIX', this.moveRight, this);
+
 this.input.keyboard.on('keyup_UP', this.moveUp, this);
+this.input.keyboard.on('keyup_EIGHT', this.moveUp, this);
+
 this.input.keyboard.on('keyup_DOWN', this.moveDown, this);
+this.input.keyboard.on('keyup_TWO', this.moveDown, this);
+
 this.input.keyboard.on('keyup_ENTER', this.pressKey, this);
 this.input.keyboard.on('keyup_SPACE', this.pressKey, this);
 this.input.keyboard.on('keyup', this.anyKey, this);

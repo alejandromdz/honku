@@ -1,8 +1,19 @@
 
 <nav>
-  <a routerLink="/home"><span class="fa fa-home"></span></a>
+  <a routerLink="/home" class="active">
+    <h1>Phaser Games</h1>
+  </a>
+  <div class="links" #links>
+    <a routerLink="/home" (click)="links.style.display = 'none'"><span class="fa fa-home"></span> Home</a>
+    <a routerLink="/honku" (click)="links.style.display = 'none'"><span class="fa fa-gamepad"></span> Honku</a>
+  </div>
+  <a class="icon" (click)="
+  links.style.display = links.style.display === 'block'? 'none': 'block'">
+    <i class="fa fa-bars"></i>
+  </a>
 </nav>
 <router-outlet></router-outlet>
 <footer>
   
 </footer>
+

@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+nav {
+    overflow: hidden;
+    background-color: #333;
+    position: relative;
+    margin-bottom: 30px;
+    .links {
+        display: none;
+      }
+
+      a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 30px;
+        display: block;
+        cursor: pointer;
+        &:hover {
+            background: black;
+            color: #1ae922;
+          }
+    }
+
+      a.icon {
+        background: black;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+   
+      }
+      
+      .active {
+        background: #19ea22;
+        color: white;
+        &:hover{
+            background: #19ea22;
+        }
+
+      }
+  }
+  

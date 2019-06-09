@@ -5,7 +5,7 @@ const SPEED: number = 2;
 
 export class Honku extends Phaser.GameObjects.Sprite {
     
-    private controls: { UP: Key, DOWN: Key, LEFT: Key, RIGHT: Key };
+    private controls: { UP: Key[], DOWN: Key[], LEFT: Key[], RIGHT: Key[] };
     private health: number = 100;
     private isDying: boolean = false;
 
@@ -25,10 +25,26 @@ export class Honku extends Phaser.GameObjects.Sprite {
         (this.body as Phaser.Physics.Arcade.Body).offset.setTo(5, 5);
 
         this.controls = {
-            UP: this.scene.input.keyboard.addKey('UP'),
-            DOWN: this.scene.input.keyboard.addKey('DOWN'),
-            LEFT: this.scene.input.keyboard.addKey('LEFT'),
-            RIGHT: this.scene.input.keyboard.addKey('RIGHT')
+            UP: [
+                this.scene.input.keyboard.addKey('UP'),
+                this.scene.input.keyboard.addKey('W'),
+                this.scene.input.keyboard.addKey('EIGHT')
+            ],
+            DOWN: [
+                this.scene.input.keyboard.addKey('DOWN'),
+                this.scene.input.keyboard.addKey('S'),
+                this.scene.input.keyboard.addKey('TWO')
+            ],
+            LEFT: [
+                this.scene.input.keyboard.addKey('LEFT'),
+                this.scene.input.keyboard.addKey('A'),
+                this.scene.input.keyboard.addKey('FOUR')
+            ],
+            RIGHT: [
+                this.scene.input.keyboard.addKey('RIGHT'),
+                this.scene.input.keyboard.addKey('D'),
+                this.scene.input.keyboard.addKey('SIX')
+            ]
         };
 
         this.scene.anims.create({
@@ -90,17 +106,17 @@ export class Honku extends Phaser.GameObjects.Sprite {
         }
 
 
-        if(this.controls.DOWN.isDown 
-            || this.controls.UP.isDown 
-            || this.controls.LEFT.isDown 
-            || this.controls.RIGHT.isDown){
+        if(this.controls.DOWN.find(k=>k.isDown) 
+            || this.controls.UP.find(k=>k.isDown) 
+            || this.controls.LEFT.find(k=>k.isDown) 
+            || this.controls.RIGHT.find(k=>k.isDown)){
                 //console.log('controls;')
                 this.health = this.health > 10 ? this.health - 0.1 : this.health;
             } else {
                 this.health  = this.health < 100 ? this.health + 0.1 : this.health;
             }
 
-        if (this.controls.UP.isDown && this.controls.RIGHT.isDown) {
+        if (this.controls.UP.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
 
             this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
             this.x += (Math.SQRT1_2)*this.health*SPEED/100;
@@ -110,7 +126,7 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        if (this.controls.DOWN.isDown && this.controls.RIGHT.isDown) {
+        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
             this.y += (Math.SQRT1_2)*this.health*SPEED/100;
             this.x += (Math.SQRT1_2)*this.health*SPEED/100;
             this.play('fly-x', true);
@@ -119,7 +135,7 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        if (this.controls.UP.isDown && this.controls.LEFT.isDown) {
+        if (this.controls.UP.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
             this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
             this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
             this.play('fly-xy', true);
@@ -128,7 +144,7 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        if (this.controls.DOWN.isDown && this.controls.LEFT.isDown) {
+        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
             this.y += (Math.SQRT1_2)*this.health*SPEED/100;
             this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
             this.play('fly-x', true);
@@ -137,7 +153,7 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        if (this.controls.UP.isDown) {
+        if (this.controls.UP.find(k=>k.isDown)) {
             this.y -= this.health*SPEED/100;
             this.play('fly-y', true)
             this.setFlipY(false);
@@ -145,7 +161,7 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
 
         }
-        if (this.controls.DOWN.isDown) {
+        if (this.controls.DOWN.find(k=>k.isDown)) {
             this.y += this.health*SPEED/100;
             this.play('fly-y-b', true)
             this.setFlipY(false);
@@ -153,26 +169,23 @@ export class Honku extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        if (this.controls.LEFT.isDown) {
+        if (this.controls.LEFT.find(k=>k.isDown)) {
             this.x -= this.health*SPEED/100;
             this.play('fly-x', true)
             this.setFlipY(false);
             this.setFlipX(true)
             return;
         }
-        if (this.controls.RIGHT.isDown) {
+        if (this.controls.RIGHT.find(k=>k.isDown)) {
             this.x += this.health*SPEED/100;
             this.play('fly-x', true)
             this.setFlipY(false);
             this.setFlipX(false)
             return;
         }
-
-
     }
 
     getHealth(): number{
-        //console.log(this.health);
         return this.health
     }
 

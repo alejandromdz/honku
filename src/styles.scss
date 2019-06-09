@@ -18,10 +18,8 @@ body{
     font-family: Roboto;
     color: #ecf0f1;
     font-size:30px;
-    background: -webkit-linear-gradient(to top, #0000004a, #989898);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #0000004a, #989898); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: black;
     height: 100vh;
-    padding: 10px;
     margin: 0;
     h1{
       font-family: 'Connection';
@@ -33,7 +31,6 @@ body{
 
     }
     p {
-
       width: 100%;
       max-width: 500px;
       margin: auto;
@@ -44,15 +41,11 @@ a:link,
 a:hover,
 a:active,
 a:visited{
-    
-    transition: color 150ms;
-    color: #000;
+    color: #4094af;
     text-decoration: none;
 }
     
 a:hover{
-
-    color: #000;
     text-decoration: underline;
 }
 
