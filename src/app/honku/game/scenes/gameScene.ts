@@ -85,7 +85,12 @@ export class GameScene extends Phaser.Scene {
         this.baseLayers.add( map.createStaticLayer('Rocks', tileset, 0, this.game.scale.height - map.heightInPixels));
         this.baseLayers.add( map.createStaticLayer('Trees', tileset, 0, this.game.scale.height - map.heightInPixels));
         
-        this.player = new Honku({ x: 400, y: 400, scene: this, key: 'honku'});
+        this.player = new Honku({ 
+            x: 400, 
+            y: 400, 
+            scene: this, 
+            key: 'honku'
+        });
 
         this.enemies = this.physics.add.group({
             runChildUpdate: true
@@ -97,7 +102,12 @@ export class GameScene extends Phaser.Scene {
                     return;
                 }
                 // 400 - 500 * data.direction puts the enemy out of the screen
-                const enemy = new Enemy({x:(400 - 600 * data.direction), y: data.y, scene:this, key: 'enemy'});
+                const enemy = new Enemy({
+                    x:(400 - 600 * data.direction), 
+                    y: data.y, 
+                    scene:this, 
+                    key: 'enemy'
+                });
                 enemy.setSpeed(data.speed);
                 enemy.setDirection(data.direction);
                 this.enemies.add(enemy);
@@ -144,8 +154,23 @@ this.input.keyboard.on('keyup', this.anyKey, this);
 text.on('pointermove', this.moveBlock, this);
 text.on('pointerup', this.pressKey, this);
 
-this.add.bitmapText(100, 260, 'arcade',             'RANK  NAME   SCORE').setTint(0xffffff).setDepth(100);
-this.rank = this.add.bitmapText(100, 310, 'arcade', `             ${Math.floor(this.score/10)}`).setTint(0xffffff).setDepth(100);
+this.add.bitmapText(
+    100, 
+    260, 
+    'arcade',
+    'RANK  NAME   SCORE'
+    )
+    .setTint(0xffffff)
+    .setDepth(100);
+
+this.rank = this.add.bitmapText(
+    100, 
+    310, 
+    'arcade', 
+    `             ${Math.floor(this.score/10)}`
+    )
+    .setTint(0xffffff)
+    .setDepth(100);
 
 
 this.playerText = this.add.bitmapText(290, 310, 'arcade', '').setTint(0xffffff).setDepth(100);

@@ -1,8 +1,10 @@
 
 
+
+import * as Phaser from "phaser";
+
+
 export class BootScene extends Phaser.Scene {
-  
-  private phaserSprite: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({
@@ -22,7 +24,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.phaserSprite = this.add.sprite(400, 300, "logo").setScale(2);
+    this.add.sprite(400, 300, "logo").setScale(2);
 
 
     this.add.bitmapText(
@@ -38,12 +40,18 @@ export class BootScene extends Phaser.Scene {
             50, 
             150, 
             'font',
-            'dev:alejandromdz@gmail.com', 
+            '2019', 
            )
            .setTint(0xe9ebf1).setFontSize(16)
 
     setTimeout(()=>{
-      this.scene.start("GameScene")
+      try{
+
+        this.scene.start("GameScene")
+      }
+      catch(err){
+        
+      }
     }, 5000)
   }
 

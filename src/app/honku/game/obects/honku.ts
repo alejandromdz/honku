@@ -4,8 +4,7 @@ import Key = Phaser.Input.Keyboard.Key;
 const SPEED: number = 2;
 
 export class Honku extends Phaser.GameObjects.Sprite {
-
-
+    
     private controls: { UP: Key, DOWN: Key, LEFT: Key, RIGHT: Key };
     private health: number = 100;
     private isDying: boolean = false;
