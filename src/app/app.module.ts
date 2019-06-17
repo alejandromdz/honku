@@ -8,7 +8,7 @@ import { AppComponent }         from './app.component';
 import { HonkuComponent } from './honku/honku.component';
 import { PhaserModule } from 'phaser-component-library';
 import { HomeComponent } from './home/home.component';
-import { QueueComponent } from './queue/queue.component';
+import { QBirdsComponent } from './qbirds/qbirds.component';
 
 
 
@@ -24,7 +24,7 @@ import { QueueComponent } from './queue/queue.component';
     AppComponent,
     HonkuComponent,
     HomeComponent,
-    QueueComponent
+    QBirdsComponent
   ],
   providers: [  ],
   bootstrap: [ AppComponent ]

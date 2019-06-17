@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QueueComponent } from './queue.component';
+import { QBirdsComponent } from './qbirds.component';
 
-describe('QueueComponent', () => {
-  let component: QueueComponent;
-  let fixture: ComponentFixture<QueueComponent>;
+describe('QBirdsComponent', () => {
+  let component: QBirdsComponent;
+  let fixture: ComponentFixture<QBirdsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueueComponent ]
+      declarations: [ QBirdsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QueueComponent);
+    fixture = TestBed.createComponent(QBirdsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

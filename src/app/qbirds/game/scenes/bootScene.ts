@@ -13,13 +13,13 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("logo", "./assets/honku_title.png");
+    // this.load.image("logo", "./assets/honku_title.png");
     // load our package
     this.load.pack(
       "preload",
-      "./assets/packs/honku/pack.json",
+      "./assets/packs/qbirds/pack.json",
       "preload"
-    );
+    ); 
 
   }
 
@@ -31,7 +31,7 @@ export class BootScene extends Phaser.Scene {
       40, 
       50, 
       'font',
-      'Honku', 
+      'Qbirds', 
      )
      .setTint(0x900d0d)
      .setFontSize(40);
@@ -52,7 +52,7 @@ export class BootScene extends Phaser.Scene {
       catch(err){
         
       }
-    }, 5000)
+    }, 1)
   }
 
   init():void{

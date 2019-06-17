@@ -1,0 +1,21 @@
+{
+    "preload": {
+        "files": [{
+            "type": "bitmapFont",
+            "key": "font",
+            "textureURL": "assets/fonts/font.png",
+            "fontDataURL": "assets/fonts/font.fnt"
+          },
+
+            {
+                "type": "spritesheet",
+                "key": "qbird",
+                "url": "assets/qbird.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32
+                }
+            }
+        ]
+    }
+}

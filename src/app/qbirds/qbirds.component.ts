@@ -3,15 +3,16 @@ import { BootScene } from './game/scenes/bootScene';
 import { GameScene } from './game/scenes/gameScene';
 import { DEBUG } from '../constants/debug';
 
-
 import GameConfig = Phaser.Types.Core.GameConfig
 
+
 @Component({
-  selector: 'app-honku',
-  templateUrl: './honku.component.html',
-  styleUrls: ['./honku.component.sass']
+  selector: 'app-qbirds',
+  templateUrl: './qbirds.component.html',
+  styleUrls: ['./qbirds.component.scss']
 })
-export class HonkuComponent {
+export class QBirdsComponent {
+
 
   public readonly phaser = Phaser;
   // main game configuration

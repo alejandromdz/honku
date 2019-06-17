@@ -1,4 +1,4 @@
-import { DEBUG } from "../constants/debug";
+import { DEBUG } from "../../../constants/debug";
 
 export class Enemy extends Phaser.GameObjects.Sprite {
 

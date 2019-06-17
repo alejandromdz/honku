@@ -1,8 +1,8 @@
 
 import { Honku } from '../obects/honku';
 import { Enemy } from '../obects/enemy';
-import { ENEMY_DATA } from '../constants/enemyData';
-import { DEBUG } from '../constants/debug';
+import { ENEMY_DATA } from '../../../constants/enemyData';
+import { DEBUG } from '../../../constants/debug';
 import { HealthBar } from '../obects/healthBar';
 import 'whatwg-fetch';
 
@@ -56,10 +56,10 @@ export class GameScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.image('tiles', 'assets/tiles/terrain_atlas.png');
-        this.load.image('cloud_tiles', 'assets/tiles/clouds.png');
-        this.load.tilemapTiledJSON('map', 'assets/tiles/level_1.json'); 
-        this.load.tilemapTiledJSON('clouds_map', 'assets/tiles/level_1_clouds.json');      
+        this.load.image('tiles', 'assets/tiles/honku/terrain_atlas.png');
+        this.load.image('cloud_tiles', 'assets/tiles/honku/clouds.png');
+        this.load.tilemapTiledJSON('map', 'assets/tiles/honku/level_1.json'); 
+        this.load.tilemapTiledJSON('clouds_map', 'assets/tiles/honku/level_1_clouds.json');      
 
         //keyboard
 
