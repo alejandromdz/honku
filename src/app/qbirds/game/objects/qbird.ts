@@ -21,8 +21,8 @@ export class Qbird extends Phaser.GameObjects.Sprite {
         params.scene.add.existing(this);
         params.scene.physics.world.enable(this);
         (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
-        (this.body as Phaser.Physics.Arcade.Body).setSize(30, 30);
-        (this.body as Phaser.Physics.Arcade.Body).offset.setTo(5, 5);
+        (this.body as Phaser.Physics.Arcade.Body).setSize(20, 31);
+        (this.body as Phaser.Physics.Arcade.Body).offset.setTo(5, 0);
 
         this.controls = {
             UP: [

@@ -1,7 +1,7 @@
 
 import { Honku } from '../obects/honku';
 import { Enemy } from '../obects/enemy';
-import { ENEMY_DATA } from '../../../constants/enemyData';
+import { ENEMY_DATA } from '../obects/enemyData';
 import { DEBUG } from '../../../constants/debug';
 import { HealthBar } from '../obects/healthBar';
 import 'whatwg-fetch';
@@ -195,7 +195,7 @@ this.runOnce = true;
             this
         );
 
-        this.healthBar = new HealthBar(this,680,18,128,16);
+        this.healthBar = new HealthBar(this, 680, 18, 128, 16);
         
     }
 
@@ -206,8 +206,8 @@ this.runOnce = true;
         }
         this.player.update();
         
-        Phaser.Actions.IncY(this.baseLayers.getChildren(),0.4);
-        Phaser.Actions.IncY(this.cloudLayers.getChildren(),0.6);
+        Phaser.Actions.IncY(this.baseLayers.getChildren(), 0.4);
+        Phaser.Actions.IncY(this.cloudLayers.getChildren(), 0.6);
 
         if (this.scoreText) {
             this.scoreText.setText(`SCORE ${Math.floor(++this.score / 10)}`);

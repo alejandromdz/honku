@@ -38,7 +38,7 @@
     "angular-in-memory-web-api": "github:brandonroberts/in-memory-web-api-bazel#50a34d8",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
-    "phaser": "3.17.0",
+    "phaser": "^3.18.0",
     "phaser-component-library": "^2.0.0",
     "rxjs": "^6.5.1",
     "whatwg-fetch": "^3.0.0",
