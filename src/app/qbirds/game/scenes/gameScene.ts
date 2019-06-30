@@ -28,35 +28,27 @@ export class GameScene extends Phaser.Scene {
 
         this.player = new Qbird({
             x: 400,
-            y: 400,
+            y: 100,
             scene: this,
             key: 'qbird'
         }).setScale(2.5);
 
-        const nestBoundaries = this.physics.add.group();
+        this.add.existing(this.player)
+        
+
+        //const nestBoundaries = this.physics.add.group();
 
         var polygon = new Phaser.Geom.Polygon([
             ...NEST_DATA.map(point=>new Phaser.Geom.Point(point.x,point.y))
         ]);
+
+        this.matter.add.fromVertices(417,391,NEST_DATA,{isStatic:true});
         
-        var graphics = this.add.graphics({ x: 0, y: 0 });
-        graphics.lineStyle(2, 0x00aa00);
-        graphics.beginPath();
-        graphics.moveTo(polygon.points[0].x, polygon.points[0].y);
     
-        nestBoundaries.add(graphics);
-
-        for (var i = 1; i < polygon.points.length; i++)
-        {
-            graphics.lineTo(polygon.points[i].x, polygon.points[i].y);
-        }
-    
-        graphics.closePath();
-        graphics.strokePath();
-
-        this.physics.add.collider(this.player,nestBoundaries,()=>{
-            console.log('collided')
-        })    
+        //nestBoundaries.add(graphics);
+        //this.physics.add.collider(this.player,nestBoundaries,()=>{
+        //    console.log('collided')
+        //})    
         //this.add.sprite(400, 300, "leaves").setScale(4);
 
         this.debugtext = this.add.text(10, 10, '', { fill: '#fff' });

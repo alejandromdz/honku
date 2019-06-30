@@ -6,7 +6,6 @@
             "textureURL": "assets/fonts/font.png",
             "fontDataURL": "assets/fonts/font.fnt"
           },
-
             {
                 "type": "spritesheet",
                 "key": "qbird",

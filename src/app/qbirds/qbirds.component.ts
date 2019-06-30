@@ -26,8 +26,8 @@ export class QBirdsComponent {
     new GameScene()
   ],
   physics: {
-    default: "arcade",
-    arcade: {
+    default: "matter",
+    matter: {
       debug: DEBUG,
       gravity: { y: 0 }
     }

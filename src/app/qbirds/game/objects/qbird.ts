@@ -13,16 +13,14 @@ export class Qbird extends Phaser.GameObjects.Sprite {
     constructor(params) {
 
         super(params.scene, params.x, params.y, params.key);
+        console.log(this);
+        
         const key = params.key;
 
-        this.setOrigin(0, 0);
+        this.setOrigin(params.x, params.y);
         this.setFrame(0);
         
-        params.scene.add.existing(this);
-        params.scene.physics.world.enable(this);
-        (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
-        (this.body as Phaser.Physics.Arcade.Body).setSize(20, 31);
-        (this.body as Phaser.Physics.Arcade.Body).offset.setTo(5, 0);
+        params.scene.matter.add.gameObject(this).setFrictionAir(0.001).setBounce(0.8);
 
         this.controls = {
             UP: [
@@ -84,12 +82,12 @@ export class Qbird extends Phaser.GameObjects.Sprite {
             || this.controls.UP.find(k=>k.isDown) 
             || this.controls.LEFT.find(k=>k.isDown) 
             || this.controls.RIGHT.find(k=>k.isDown)){
-                //console.log('controls;')
+                
                 //this.health = this.health > 10 ? this.health - 0.1 : this.health;
             } else {
                 //this.health  = this.health < 100 ? this.health + 0.1 : this.health;
             }
-
+            
         if (this.controls.UP.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
 
             this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
