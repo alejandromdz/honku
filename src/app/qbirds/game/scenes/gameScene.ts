@@ -1,10 +1,12 @@
 import { Qbird } from '../objects/qbird';
 import { NEST_DATA } from '../objects/nestData';
+import {  fromEvent } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 
 export class GameScene extends Phaser.Scene {
 
     private player: Qbird;
-    private debugtext:any;
 
     constructor() {
         super({
@@ -35,37 +37,30 @@ export class GameScene extends Phaser.Scene {
 
 
            
-        this.matter.add.fromVertices(
+        const nest = this.matter.add.fromVertices(
             420,
             378,
             NEST_DATA,
-            {isStatic:true, isSensor: true},true);
+            {isStatic:true, isSensor: true, label : 'nest'},true);
         
     
             
-        //this.add.sprite(400, 300, "leaves").setScale(4);
+        this.add.sprite(400, 300, 'leaves').setScale(4);
 
-        this.debugtext = this.add.text(10, 10, '', { fill: '#fff' });
-
-        this.matter.world.on("collisionend", event => {
-            event.pairs.forEach(pair => {
-              const { bodyA, bodyB } = pair;
-              console.log(bodyA,bodyB);
-            });
-          });
+        const nestFeetCollision = fromEvent(this.matter.world,'collisionend')
+        .pipe(
+            filter(ev=>ev[1].label == 'nest' || ev[2].label == 'nest'),
+            filter(ev=>ev[1].label == 'feet' || ev[2].label == 'feet'),
+        )
+        nestFeetCollision.subscribe(ev=>{
+            console.log('collision')
+            this.player.gotHit();
+        })
 
     }
 
     update(): void {
         this.player.update();
-        var pointer: Phaser.Input.Pointer = this.input.activePointer;
-
-    this.debugtext.setText([
-        'x: ' + pointer.position.x,
-        'y: ' + pointer.position.y,
-        'isDown: ' + pointer.isDown,
-        'rightButtonDown: ' + pointer.rightButtonDown()
-    ]);
     }
 
 }

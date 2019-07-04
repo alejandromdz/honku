@@ -8,7 +8,6 @@ const Matter: typeof MatterJS = Phaser.Physics.Matter.Matter;
 
 const SPEED: number = 2;
 
-
 export class Qbird extends Phaser.Physics.Matter.Sprite {
     
     private controls: { UP: Key[], DOWN: Key[], LEFT: Key[], RIGHT: Key[] };
@@ -30,7 +29,7 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
         const {width:w, height:h} = this;
         const mainBody = Bodies.rectangle(0, 0, w * 0.6, h, { chamfer: { radius: 10 } })
         
-        const feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true });
+        const feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true, label: 'feet' });
         
         const compoundBody = Body.create({
             parts: [mainBody, feet],
@@ -42,7 +41,7 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
           this.setExistingBody(compoundBody);
           this.setPosition(params.x,params.y)
 
-        params.scene.add.existing(this);
+        this.scene.add.existing(this);
         
 
         this.controls = {
@@ -75,17 +74,21 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
             repeat: -1
         });
 
+        this.scene.anims.create({
+            key: 'killed',
+            frames: this.scene.anims.generateFrameNumbers(key, { start: 2, end: 2 }),
+            frameRate: 1,
+            repeat: -1
+        });
 
-        this.setScale(1.7);
+
         this.play('walk')
         this.setFlipX(false)
+
     }
 
     gotHit(): void {
-
-
-        (this.body as Phaser.Physics.Arcade.Body).stop();
-        this.anims.play('killed', true);
+        this.play('killed', true);
         this.isDying = true;
     }
 
@@ -96,9 +99,9 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
 
     update(): void {
         
-
         if (this.isDying) {
-            return
+            this.y+=2;
+            return;
         }
 
 
