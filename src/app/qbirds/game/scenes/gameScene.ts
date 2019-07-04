@@ -28,32 +28,34 @@ export class GameScene extends Phaser.Scene {
 
         this.player = new Qbird({
             x: 400,
-            y: 100,
+            y: 400,
             scene: this,
             key: 'qbird'
         }).setScale(2.5);
 
-        this.add.existing(this.player)
-        
 
-        //const nestBoundaries = this.physics.add.group();
-
-        var polygon = new Phaser.Geom.Polygon([
-            ...NEST_DATA.map(point=>new Phaser.Geom.Point(point.x,point.y))
-        ]);
-
-        this.matter.add.fromVertices(417,391,NEST_DATA,{isStatic:true});
+           
+        this.matter.add.fromVertices(
+            420,
+            378,
+            NEST_DATA,
+            {isStatic:true, isSensor: true},true);
         
     
-        //nestBoundaries.add(graphics);
-        //this.physics.add.collider(this.player,nestBoundaries,()=>{
-        //    console.log('collided')
-        //})    
+            
         //this.add.sprite(400, 300, "leaves").setScale(4);
 
         this.debugtext = this.add.text(10, 10, '', { fill: '#fff' });
 
+        this.matter.world.on("collisionend", event => {
+            event.pairs.forEach(pair => {
+              const { bodyA, bodyB } = pair;
+              console.log(bodyA,bodyB);
+            });
+          });
+
     }
+
     update(): void {
         this.player.update();
         var pointer: Phaser.Input.Pointer = this.input.activePointer;

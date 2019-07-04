@@ -1,9 +1,15 @@
 
 
 import Key = Phaser.Input.Keyboard.Key;
+import * as MatterJS from 'matter-js';
+// @ts-ignore: Property 'Matter' does not exist on type 'typeof Matter'.
+const Matter: typeof MatterJS = Phaser.Physics.Matter.Matter;
+
+
 const SPEED: number = 2;
 
-export class Qbird extends Phaser.GameObjects.Sprite {
+
+export class Qbird extends Phaser.Physics.Matter.Sprite {
     
     private controls: { UP: Key[], DOWN: Key[], LEFT: Key[], RIGHT: Key[] };
     private health: number = 100;
@@ -12,15 +18,32 @@ export class Qbird extends Phaser.GameObjects.Sprite {
 
     constructor(params) {
 
-        super(params.scene, params.x, params.y, params.key);
-        console.log(this);
-        
+        super(params.scene.matter.world, params.x, params.y, params.key);
         const key = params.key;
 
         this.setOrigin(params.x, params.y);
         this.setFrame(0);
+        this.setIgnoreGravity(true);
+ 
+        const {Bodies, Body} = Matter;
         
-        params.scene.matter.add.gameObject(this).setFrictionAir(0.001).setBounce(0.8);
+        const {width:w, height:h} = this;
+        const mainBody = Bodies.rectangle(0, 0, w * 0.6, h, { chamfer: { radius: 10 } })
+        
+        const feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true });
+        
+        const compoundBody = Body.create({
+            parts: [mainBody, feet],
+            frictionStatic: 0,
+            frictionAir: 0.02,
+            friction: 0.1
+          });
+        
+          this.setExistingBody(compoundBody);
+          this.setPosition(params.x,params.y)
+
+        params.scene.add.existing(this);
+        
 
         this.controls = {
             UP: [
@@ -72,6 +95,7 @@ export class Qbird extends Phaser.GameObjects.Sprite {
     }
 
     update(): void {
+        
 
         if (this.isDying) {
             return
