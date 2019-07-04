@@ -4,8 +4,6 @@ import Key = Phaser.Input.Keyboard.Key;
 import * as MatterJS from 'matter-js';
 // @ts-ignore: Property 'Matter' does not exist on type 'typeof Matter'.
 const Matter: typeof MatterJS = Phaser.Physics.Matter.Matter;
-
-
 const SPEED: number = 2;
 
 export class Qbird extends Phaser.Physics.Matter.Sprite {
@@ -13,12 +11,14 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
     private controls: { UP: Key[], DOWN: Key[], LEFT: Key[], RIGHT: Key[] };
     private health: number = 100;
     private isDying: boolean = false;
-
+    private isPlayer: boolean = false;
+    public feet;
 
     constructor(params) {
 
         super(params.scene.matter.world, params.x, params.y, params.key);
         const key = params.key;
+        this.isPlayer = params.isPlayer
 
         this.setOrigin(params.x, params.y);
         this.setFrame(0);
@@ -29,10 +29,10 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
         const {width:w, height:h} = this;
         const mainBody = Bodies.rectangle(0, 0, w * 0.6, h, { chamfer: { radius: 10 } })
         
-        const feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true, label: 'feet' });
+        this.feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true, label: 'feet' });
         
         const compoundBody = Body.create({
-            parts: [mainBody, feet],
+            parts: [mainBody, this.feet],
             frictionStatic: 0,
             frictionAir: 0.02,
             friction: 0.1
@@ -99,11 +99,15 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
 
     update(): void {
         
+        
         if (this.isDying) {
             this.y+=2;
             return;
         }
 
+        if(!this.isPlayer){
+            return;
+        }
 
         if(this.controls.DOWN.find(k=>k.isDown) 
             || this.controls.UP.find(k=>k.isDown) 

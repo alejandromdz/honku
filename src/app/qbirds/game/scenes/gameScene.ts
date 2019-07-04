@@ -1,12 +1,12 @@
 import { Qbird } from '../objects/qbird';
 import { NEST_DATA } from '../objects/nestData';
-import {  fromEvent } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 
 export class GameScene extends Phaser.Scene {
 
     private player: Qbird;
+    private nest: Phaser.Geom.Polygon;
+    private NPCList:Qbird[]=[]
 
     constructor() {
         super({
@@ -32,35 +32,47 @@ export class GameScene extends Phaser.Scene {
             x: 400,
             y: 400,
             scene: this,
-            key: 'qbird'
+            key: 'qbird',
+            isPlayer: true
         }).setScale(2.5);
+        
 
+        this.NPCList.push( 
+            new Qbird({
+                x:300,
+                y:400,
+                scene: this,
+                key: 'qbird'
+            }).setScale(2.5).setTint(0xaaaa00),
+            new Qbird({
+                x:600,
+                y:400,
+                scene: this,
+                key: 'qbird'
+            }).setScale(2.5).setTint(0xaa00aa)
+        )
 
-           
-        const nest = this.matter.add.fromVertices(
-            420,
-            378,
-            NEST_DATA,
-            {isStatic:true, isSensor: true, label : 'nest'},true);
+        this.nest= new Phaser.Geom.Polygon(
+            NEST_DATA.reduce((prev,curr)=> [...prev,curr.x,curr.y],[])
+        )
         
     
-            
         this.add.sprite(400, 300, 'leaves').setScale(4);
-
-        const nestFeetCollision = fromEvent(this.matter.world,'collisionend')
-        .pipe(
-            filter(ev=>ev[1].label == 'nest' || ev[2].label == 'nest'),
-            filter(ev=>ev[1].label == 'feet' || ev[2].label == 'feet'),
-        )
-        nestFeetCollision.subscribe(ev=>{
-            console.log('collision')
-            this.player.gotHit();
-        })
-
+        
     }
 
     update(): void {
         this.player.update();
+        this.NPCList.forEach(npc=>npc.update());
+        [this.player,...this.NPCList].forEach(qbird=>{
+            if(!this.nest.contains(qbird.feet.position.x, qbird.feet.position.y))
+            {
+                qbird.gotHit();
+            }
+
+        })
+        
+
     }
 
 }
