@@ -116,68 +116,72 @@ export class Honku extends Phaser.GameObjects.Sprite {
                 this.health  = this.health < 100 ? this.health + 0.1 : this.health;
             }
 
-        if (this.controls.UP.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
 
-            this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x += (Math.SQRT1_2)*this.health*SPEED/100;
+        const sqrt1_2_speed = (Math.SQRT1_2)*this.health*SPEED / 100;
+        const unit_speed = this.health*SPEED/100;
+
+        if (this.controls.UP.find(k => k.isDown) && this.controls.RIGHT.find(k => k.isDown)) {
+
+            this.y -= sqrt1_2_speed;
+            this.x += sqrt1_2_speed;
             this.play('fly-xy', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
-            this.y += (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x += (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown) && this.controls.RIGHT.find(k => k.isDown)) {
+            this.y += sqrt1_2_speed;
+            this.x += sqrt1_2_speed;
             this.play('fly-x', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.UP.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
-            this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.UP.find(k => k.isDown) && this.controls.LEFT.find(k => k.isDown)) {
+            this.y -= sqrt1_2_speed;
+            this.x -= sqrt1_2_speed;
             this.play('fly-xy', true);
             this.setFlipY(false);
             this.setFlipX(true);
             return;
         }
 
-        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
-            this.y += (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown) && this.controls.LEFT.find(k => k.isDown)) {
+            this.y += sqrt1_2_speed;
+            this.x -= sqrt1_2_speed;
             this.play('fly-x', true);
             this.setFlipY(false);
             this.setFlipX(true);
             return;
         }
 
-        if (this.controls.UP.find(k=>k.isDown)) {
-            this.y -= this.health*SPEED/100;
+        if (this.controls.UP.find(k => k.isDown)) {
+            this.y -= unit_speed;
             this.play('fly-y', true)
             this.setFlipY(false);
             this.setFlipX(false);
             return;
 
         }
-        if (this.controls.DOWN.find(k=>k.isDown)) {
-            this.y += this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown)) {
+            this.y += unit_speed;
             this.play('fly-y-b', true)
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.LEFT.find(k=>k.isDown)) {
-            this.x -= this.health*SPEED/100;
+        if (this.controls.LEFT.find(k => k.isDown)) {
+            this.x -= unit_speed;
             this.play('fly-x', true)
             this.setFlipY(false);
             this.setFlipX(true)
             return;
         }
-        if (this.controls.RIGHT.find(k=>k.isDown)) {
-            this.x += this.health*SPEED/100;
+        if (this.controls.RIGHT.find(k => k.isDown)) {
+            this.x += unit_speed;
             this.play('fly-x', true)
             this.setFlipY(false);
             this.setFlipX(false)

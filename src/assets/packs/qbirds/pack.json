@@ -14,6 +14,15 @@
                     "frameWidth": 32,
                     "frameHeight": 32
                 }
+            },
+            {
+                "type": "spritesheet",
+                "key": "worm",
+                "url": "assets/worm.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32
+                }
             }
         ]
     }

@@ -17,16 +17,16 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
     constructor(params) {
 
         super(params.scene.matter.world, params.x, params.y, params.key);
-        const key = params.key;
-        this.isPlayer = params.isPlayer
+        const { key, isPlayer, x, y } = params;
+        this.isPlayer = isPlayer
 
-        this.setOrigin(params.x, params.y);
-        this.setFrame(0);
+        this.setOrigin(0, 0);
         this.setIgnoreGravity(true);
- 
-        const {Bodies, Body} = Matter;
         
-        const {width:w, height:h} = this;
+ 
+        const { Bodies, Body } = Matter;
+        
+        const { width: w, height: h } = this;
         const mainBody = Bodies.rectangle(0, 0, w * 0.6, h, { chamfer: { radius: 10 } })
         
         this.feet = Bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true, label: 'feet' });
@@ -38,11 +38,12 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
             friction: 0.1
           });
         
-          this.setExistingBody(compoundBody);
-          this.setPosition(params.x,params.y)
+        this.setExistingBody(compoundBody);
+        this.setPosition(x, y)
 
         this.scene.add.existing(this);
         
+
 
         this.controls = {
             UP: [
@@ -99,7 +100,6 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
 
     update(): void {
         
-        
         if (this.isDying) {
             this.y+=2;
             return;
@@ -118,69 +118,72 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
             } else {
                 //this.health  = this.health < 100 ? this.health + 0.1 : this.health;
             }
-            
-        if (this.controls.UP.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
+        
+        const sqrt1_2_speed = (Math.SQRT1_2)*this.health*SPEED / 100;
+        const unit_speed = this.health*SPEED/100;
+        
+        if (this.controls.UP.find(k => k.isDown) && this.controls.RIGHT.find(k => k.isDown)) {
 
-            this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x += (Math.SQRT1_2)*this.health*SPEED/100;
+            this.y -= sqrt1_2_speed;
+            this.x += sqrt1_2_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.RIGHT.find(k=>k.isDown)) {
-            this.y += (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x += (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown) && this.controls.RIGHT.find(k => k.isDown)) {
+            this.y += sqrt1_2_speed;
+            this.x += sqrt1_2_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.UP.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
-            this.y -= (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.UP.find(k => k.isDown) && this.controls.LEFT.find(k => k.isDown)) {
+            this.y -= sqrt1_2_speed;
+            this.x -= sqrt1_2_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(true);
             return;
         }
 
-        if (this.controls.DOWN.find(k=>k.isDown) && this.controls.LEFT.find(k=>k.isDown)) {
-            this.y += (Math.SQRT1_2)*this.health*SPEED/100;
-            this.x -= (Math.SQRT1_2)*this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown) && this.controls.LEFT.find(k => k.isDown)) {
+            this.y += sqrt1_2_speed;
+            this.x -= sqrt1_2_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(true);
             return;
         }
 
-        if (this.controls.UP.find(k=>k.isDown)) {
-            this.y -= this.health*SPEED/100;
+        if (this.controls.UP.find(k => k.isDown)) {
+            this.y -= unit_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
 
         }
-        if (this.controls.DOWN.find(k=>k.isDown)) {
-            this.y += this.health*SPEED/100;
+        if (this.controls.DOWN.find(k => k.isDown)) {
+            this.y += unit_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(false);
             return;
         }
 
-        if (this.controls.LEFT.find(k=>k.isDown)) {
-            this.x -= this.health*SPEED/100;
+        if (this.controls.LEFT.find(k => k.isDown)) {
+            this.x -= unit_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(true)
             return;
         }
-        if (this.controls.RIGHT.find(k=>k.isDown)) {
-            this.x += this.health*SPEED/100;
+        if (this.controls.RIGHT.find(k => k.isDown)) {
+            this.x += unit_speed;
             this.play('walk', true);
             this.setFlipY(false);
             this.setFlipX(false)

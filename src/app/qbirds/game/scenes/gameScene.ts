@@ -1,5 +1,6 @@
 import { Qbird } from '../objects/qbird';
 import { NEST_DATA } from '../objects/nestData';
+import { Worm } from '../objects/worm';
 
 
 export class GameScene extends Phaser.Scene {
@@ -52,27 +53,35 @@ export class GameScene extends Phaser.Scene {
             }).setScale(2.5).setTint(0xaa00aa)
         )
 
+        const worm = new Worm({
+            x:250,
+            y:260,
+            scene: this,
+            key:'worm'
+        }).setScale(2);
+
         this.nest= new Phaser.Geom.Polygon(
             NEST_DATA.reduce((prev,curr)=> [...prev,curr.x,curr.y],[])
         )
         
-    
         this.add.sprite(400, 300, 'leaves').setScale(4);
-        
+
     }
 
     update(): void {
-        this.player.update();
-        this.NPCList.forEach(npc=>npc.update());
-        [this.player,...this.NPCList].forEach(qbird=>{
-            if(!this.nest.contains(qbird.feet.position.x, qbird.feet.position.y))
-            {
-                qbird.gotHit();
-            }
-
-        })
-        
-
+        try{
+            this.player.update();
+            this.NPCList.forEach(npc=>npc.update());
+            [this.player,...this.NPCList].forEach(qbird=>{
+                if(!qbird.isAlive()){
+                    return;
+                }
+                if(!this.nest.contains(qbird.feet.position.x, qbird.feet.position.y))
+                {
+                    qbird.gotHit();
+                }
+            })
+        }catch(e){
+        }
     }
-
 }
