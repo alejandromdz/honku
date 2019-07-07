@@ -6,20 +6,19 @@ import { filter,  delay} from 'rxjs/operators';
 import { WORM_DATA } from '../objects/wormData';
 
 import * as MatterJS from 'matter-js';
+import { QBirdNature } from '../objects/qbirdNature';
+import { QBIRD_DATA } from '../objects/qbirdData';
 // @ts-ignore: Property 'Matter' does not exist on type 'typeof Matter'.
 const Matter: typeof MatterJS = Phaser.Physics.Matter.Matter;
-
-
+const SAFE_DIST = 30;
 
 export class GameScene extends Phaser.Scene {
 
     private player: Qbird;
     private nest: Phaser.Geom.Polygon;
-    private NPCList:Qbird[]=[];
-    private wormsList: Worm[]=[];
+    private NPCList: Qbird[] = [];
+    private wormsList: Worm[] = [];
     private isGrowing = false;
-
-
 
     constructor() {
         super({
@@ -33,14 +32,13 @@ export class GameScene extends Phaser.Scene {
         this.load.image("nest", "./assets/backgrounds/qbirds/nest.png");
         this.load.image("leaves", "./assets/backgrounds/qbirds/leaves.png");
         this.load.image("particle","./assets/particles/qbirds/particle.png");
-       
     }
 
     create(): void {
 
-        this.add.sprite(400, 300, "clouds").setScale(4);
-        this.add.sprite(400, 300, "trees").setScale(4);
-        this.add.sprite(400, 300, "nest").setScale(4);
+        this.add.sprite(400, 300, "clouds").setScale(4).setDepth(0);
+        this.add.sprite(400, 300, "trees").setScale(4).setDepth(100);
+        this.add.sprite(400, 300, "nest").setScale(4).setDepth(200);
 
         this.player = new Qbird({
             x: 400,
@@ -48,26 +46,25 @@ export class GameScene extends Phaser.Scene {
             scene: this,
             key: 'qbird',
             isPlayer: true
-        });
+        }).setDepth(300);
         
 
-        this.NPCList.push( 
-            new Qbird({
-                x:300,
-                y:400,
+        this.NPCList = QBIRD_DATA.map(qbird =>     
+            (new Qbird({
+                x:qbird.x,
+                y:qbird.y,
                 scene: this,
-                key: 'qbird'
-            }).setTint(0xaaaa00),
-            new Qbird({
-                x:600,
-                y:400,
-                scene: this,
-                key: 'qbird'
-            }).setTint(0xaa66aa)
+                key: 'qbird',
+                nature: qbird.nature
+            })
+            .setTint(qbird.color)
+            .setDepth(300))
         )
 
         WORM_DATA.forEach(data => {
+
             this.time.delayedCall(data.delay*1000,()=>{
+                
                 if(!this.player.isAlive()){
                     return;
                 }
@@ -77,7 +74,7 @@ export class GameScene extends Phaser.Scene {
                     y: data.y, 
                     scene:this, 
                     key: 'worm'
-                });
+                }).setDepth(300);
                 
                 this.wormsList.push(worm);
             },null,null)
@@ -109,13 +106,13 @@ export class GameScene extends Phaser.Scene {
             this.isGrowing = true;
             this.anims.pauseAll();
             const growTimer = 150;
+
             concat(
                 of(newScale).pipe(delay(growTimer)),
                 of(currentScale).pipe(delay(growTimer)),
                 of(newScale).pipe(delay(growTimer)),      
                 of(currentScale).pipe(delay(growTimer)),
-                of(newScale).pipe(delay(growTimer)),   
-      
+                of(newScale).pipe(delay(growTimer))
             ).subscribe((scale) => { 
                 bird.setScale(scale);
             }, 
@@ -132,7 +129,7 @@ export class GameScene extends Phaser.Scene {
             })            
         })
 
-        this.add.sprite(400, 300, 'leaves').setScale(4);
+        this.add.sprite(400, 300, 'leaves').setScale(4).setDepth(400);
 
     }
 
@@ -141,9 +138,11 @@ export class GameScene extends Phaser.Scene {
             if(this.isGrowing){
                 return;
             }
+
             this.player.update();
             this.NPCList.forEach(npc=>npc.update());
             this.wormsList.forEach(worm => worm.isAlive() ? worm.update() : null);
+
             [
                 this.player,
                 ...this.NPCList
@@ -152,9 +151,16 @@ export class GameScene extends Phaser.Scene {
                 if(!qbird.isAlive()){
                     return;
                 }
+
                 if(!this.nest.contains(qbird.feet.position.x, qbird.feet.position.y))
                 {
                     qbird.gotHit();
+                    
+                    if(qbird.y < 300){
+
+                        qbird.setDepth(150)
+                    }
+                    return;
                 }
 
                 if(qbird.isPlayer){
@@ -204,12 +210,25 @@ export class GameScene extends Phaser.Scene {
                         return prev;
                     }, {point: null, dist: Infinity}).point;
                     
-                   
+                    const closestAng : number =  Math.atan2(
+                        closest.y - qbird.y, 
+                        closest.x - qbird.x
+                    );
+
+                    const natureAng = qbird.nature == QBirdNature.EVASIVE ?
+                    closestAng + Math.PI/2:
+                    closestAng;
+
+                    
+                    const safeAng = !this.nest.contains(
+                        qbird.feet.position.x + SAFE_DIST * Math.cos(natureAng), 
+                        qbird.feet.position.y + SAFE_DIST * Math.sin(natureAng)) ?
+                        natureAng + Math.PI :
+                        natureAng
+
                     qbird.move(
-                        Math.atan2(
-                            closest.y - qbird.y, 
-                            closest.x - qbird.x
-                        ));
+                        safeAng
+                       );
                 }
             })
 

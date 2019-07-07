@@ -2,10 +2,12 @@
 
 import Key = Phaser.Input.Keyboard.Key;
 import * as MatterJS from 'matter-js';
+import { QBirdNature } from './qbirdNature';
+import { Scene } from 'phaser';
 // @ts-ignore: Property 'Matter' does not exist on type 'typeof Matter'.
 const Matter: typeof MatterJS = Phaser.Physics.Matter.Matter;
 
-const FRC_MAGNITUDE = 0.001;
+const FRC_MAGNITUDE = 0.0005;
 
 export class Qbird extends Phaser.Physics.Matter.Sprite {
     
@@ -15,13 +17,21 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
     public feet;
     public grow: number = 2;
     public weight: number = 5;
+    public nature: QBirdNature;
 
-    constructor(params) {
+    constructor(params: {
+        scene:Scene, 
+        x:number, 
+        y:number, 
+        key: string, 
+        nature?: QBirdNature, 
+        isPlayer?: boolean}
+        ){
 
         super(params.scene.matter.world, params.x, params.y, params.key);
-        const { key, isPlayer, x, y } = params;
-        this.isPlayer = isPlayer
-
+        const { key, isPlayer, x, y, nature } = params;
+        this.nature = nature;
+        this.isPlayer = isPlayer;
         this.setOrigin(0, 0);
     
         const { Bodies, Body } = Matter;
@@ -100,6 +110,8 @@ export class Qbird extends Phaser.Physics.Matter.Sprite {
     gotHit(): void {
         this.play('killed', true);
         this.isDying = true;
+        this.setCollidesWith(this.world.nextCategory());
+                    
     }
 
     isAlive(): boolean{
